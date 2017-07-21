@@ -1,5 +1,9 @@
 package com.ctrip.framework.apollo.util.parser;
 
+import com.google.common.base.Splitter;
+import com.google.common.reflect.ClassPath;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -127,4 +131,22 @@ public class Parsers {
       return Integer.parseInt(parsed) * multiplier;
     }
   }
+
+  public static void main(String[] args) throws ParserException, IOException {
+
+   // DateParser.INSTANCE.parse("111","yyyy-MM-dd HH:mm:ss.SSS",Locale.CHINESE);
+
+
+    Splitter niceCommaSplitter = Splitter.on(',').omitEmptyStrings().trimResults();
+    Iterable<String> l= niceCommaSplitter.split("one,, two,  three"); //"one","two","three"
+    System.out.println(l);
+    l=niceCommaSplitter.split("  four  ,  five  "); //"four","five"
+    System.out.println(l);
+
+    ClassPath classpath = ClassPath.from(Parsers.class.getClassLoader());
+    for (ClassPath.ClassInfo classInfo : classpath.getTopLevelClasses("com.ctrip.framework.apollo.util.parser")) {
+      System.out.println(classInfo.getName());
+    }
+  }
+
 }
